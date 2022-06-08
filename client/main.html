@@ -1,0 +1,24 @@
+<head>
+  <title>control</title>
+</head>
+
+<body>
+  {{> container}}
+</body>
+
+<template name="container">
+  <div class="container">
+    <h2>CONTROL</h2>
+    <h1>{{pstatus}}</h1>
+    {{>commands}}
+  </div>
+</template>
+
+<template name="commands">
+  <div class="commands">
+    <h3>commands</h3>
+    <input type="text" id="ip" value="172.20.10.100">
+    <button id="play">PLAY</button>
+    <button id="stop">STOP</button>
+  </div>
+</template>
