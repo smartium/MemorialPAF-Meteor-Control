@@ -7,18 +7,35 @@
 </body>
 
 <template name="container">
-  <div class="container">
-    <h2>CONTROL</h2>
-    <h1>{{pstatus}}</h1>
-    {{>commands}}
+  <div class="container" id="container">
+    <h1>~ Memorial PAF ~</h1>
+    {{> decks}}
+    {{> language}}
   </div>
 </template>
 
-<template name="commands">
-  <div class="commands">
-    <h3>commands</h3>
-    <input type="text" id="ip" value="172.20.10.100">
-    <button id="play">PLAY</button>
-    <button id="stop">STOP</button>
+<template name="decks">
+  <div class="decks">
+    {{#each deckItems}}
+    <div id="{{name}}" name="deckItem" class="deck column-3  animate__animated animate__zoomIn">
+      <h3 class="title">{{title}}</h3>
+      <button class="buttonPlay" name="play">PLAY</button>
+      <button class="buttonLoop" name="loop">LOOP</button>
+      <button class="buttonStop" name="stop">STOP</button>
+      <div class="status">Status: {{status}}</div>
+    </div>
+    {{/each}}
+  </div>
+</template>
+
+<template name="language">
+  <div class="language" id="language">
+    {{#if isPort}}
+    <button id="port" class="column-2 active animate__animated animate__flash">PORTUGUÊS</button>
+    <button id="eng" class="column-2">INGLÊS</button>
+    {{else}}
+    <button id="port" class="column-2">PORTUGUÊS</button>
+    <button id="eng" class="column-2 active animate__animated animate__flash">INGLÊS</button>
+    {{/if}}
   </div>
 </template>
