@@ -11,10 +11,12 @@ Template.body.onRendered(() => {
     $('.deck').children('button[name="stop"]').prop("disabled", true)
     $('#container').show()
   }, 500);
-
 })
 
 Template.container.helpers({
+  screen() {
+    return '~~ Memorial PAF ~~'
+  }
 })
 
 Template.decks.helpers({
@@ -34,25 +36,24 @@ Template.decks.events({
     if (e.target.name == 'play' || e.target.name == 'loop') {
       $('.deck').css("pointer-events", "none");
       $('.deck').css("opacity", "0.5");
+      $("#language").css("pointer-events", "none");
+      $("#language").css("opacity", "0.5");
+      $(e.target).parent().children('button[name="play"]').prop('disabled', true)
+      $(e.target).parent().children('button[name="loop"]').prop('disabled', true)
       $($(e.target).parent()).css("pointer-events", "auto");
       $($(e.target).parent()).css("opacity", "1");
       $($(e.target).parent()).css("border-color", "#0F0");
+      $(e.target).parent().children('button[name="stop"]').prop('disabled', false)
+      $(e.target).parent().children('button[name="stop"]').css({
+        "border-color": "red",
+        "color": "red"
+      })
     }
     if (e.target.name == 'play') {
-      $(e.target).parent().children('button[name="play"]').prop('disabled', true)
-      $(e.target).parent().children('button[name="loop"]').prop('disabled', true)
-      $(e.target).parent().children('button[name="stop"]').prop('disabled', false)
-      $("#language").css("pointer-events", "none");
-      $("#language").css("opacity", "0.5");
       Meteor.call('play', this.name, lang.get())
     }
     else if (e.target.name == 'loop') {
-      $(e.target).parent().children('button[name="play"]').prop('disabled', true)
-      $(e.target).parent().children('button[name="loop"]').prop('disabled', true)
-      $(e.target).parent().children('button[name="stop"]').prop('disabled', false)
       Meteor.call('loop', this.name, lang.get())
-      $("#language").css("pointer-events", "none");
-      $("#language").css("opacity", "0.5");
     }
     else if (e.target.name == 'stop') {
       $('.deck').css("pointer-events", "auto");
@@ -61,6 +62,10 @@ Template.decks.events({
       $(e.target).parent().children('button[name="play"]').prop('disabled', false)
       $(e.target).parent().children('button[name="loop"]').prop('disabled', false)
       $(e.target).parent().children('button[name="stop"]').prop('disabled', true)
+      $(e.target).parent().children('button[name="stop"]').css({
+        "border-color": "white",
+        "color": "white"
+      })
       $('.column-2').prop('disabled', false)
       $("#language").css("pointer-events", "auto");
       $("#language").css("opacity", "1");

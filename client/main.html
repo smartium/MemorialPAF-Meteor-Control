@@ -8,7 +8,7 @@
 
 <template name="container">
   <div class="container" id="container">
-    <h1>~ Memorial PAF ~</h1>
+    <h1>{{screen}}</h1>
     {{> decks}}
     {{> language}}
   </div>
@@ -38,4 +38,7 @@
     <button id="eng" class="column-2 active animate__animated animate__flash">INGLÊS</button>
     {{/if}}
   </div>
+</template>
+
+<template name="tools">
 </template>

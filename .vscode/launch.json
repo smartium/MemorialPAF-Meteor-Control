@@ -4,9 +4,23 @@
   // Para obter mais informações, acesse: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
+
+
     {
-      "command": "npm start",
-      "name": "Run npm start",
+      "command": "meteor npm start",
+      "name": "Meteor",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "meteor npm run android",
+      "name": "Meteor Android",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "meteor npm run ios",
+      "name": "Meteor iOS",
       "request": "launch",
       "type": "node-terminal"
     }
