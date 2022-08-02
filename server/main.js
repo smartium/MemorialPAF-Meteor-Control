@@ -1,29 +1,38 @@
 import { Meteor } from 'meteor/meteor'
+import { HTTP } from 'meteor/http'
 import '../imports/both/collections/collections'
 
 var OscEmitter = require('osc-emitter')
 var emitterControl = new OscEmitter()
 var emitterPlayer = new OscEmitter()
 
-devMode = {
-  enabled: true,
-  address: '127.0.0.1'
-}
+var devMode = { enabled: true, address: '127.0.0.1' }
 
 Meteor.startup(() => {
-  if (Configs.find().count() == 0) {
+  if (Configs.find().count() === 0) {
     console.log('Config está vazio!')
-    import '../imports/both/collections/defaultconfig'
+    import '../assets/both/collections/defaultconfig'
     Configs.insert(oPedro)
     Configs.insert(linhaDoTempo)
     Configs.insert(multipliqueSe)
   }
-  else {
-    console.log('Config localizada!')
+  else { console.log('Config localizada!') }
+  if (State.find().count() === 0) {
+    console.log('Sem estado definidoo!')
+    let systemState = JSON.parse(Assets.getText('defaultconfig.json'));
+    State.insert(systemState)
   }
+  else { console.log('Estado localizado!') }
 });
 
 Meteor.methods({
+  'getState'() {
+    return State.findOne()
+  },
+  'setState'(_lang) {
+    let stateId = State.findOne()._id
+    State.update(stateId, { $set: { activeLang: _lang } })
+  },
   'play'(_name, _lang) {
     deck = Configs.findOne({ name: _name })
     Logs.insert({
@@ -110,5 +119,13 @@ Meteor.methods({
       timestamp: new Date().valueOf()
     })
     console.log(`STOP: ${deck.title}`);
+  },
+  'tools.toggleLock'() {
+    let state = State.findOne()
+    State.update(state._id, {
+      $set: {
+        locked: !state.locked
+      }
+    })
   }
 })

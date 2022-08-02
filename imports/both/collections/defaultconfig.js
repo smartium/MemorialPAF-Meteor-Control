@@ -1,3 +1,12 @@
+systemState = {
+  idleMode: true,
+  activeLang: 'port',
+  activeDeck: '',
+  locked: false,
+  timestamp: new Date().valueOf(),
+  createdAt: new Date()
+}
+
 oPedro = {
   name: 'pedro',
   title: 'O Pedro',

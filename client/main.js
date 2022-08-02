@@ -4,13 +4,44 @@ import 'animate.css'
 import '../imports/both/collections/collections'
 import './main.html';
 
-lang = new ReactiveVar('port')
+lang = new ReactiveVar()
+state = new ReactiveVar('port')
+
+Meteor.startup(function () {
+  Meteor.call('getState', (err, res) => {
+    state.set(res)
+    lang.set(res.activeLang)
+  })
+});
+
+Template.registerHelper('appState', () => {
+  return State.findOne()
+});
 
 Template.body.onRendered(() => {
   Meteor.setTimeout(function () {
     $('.deck').children('button[name="stop"]').prop("disabled", true)
+    $('.decks').prop("disabled", true)
     $('#container').show()
   }, 500);
+
+})
+
+Template.tools.onRendered(() => {
+  function showTime() {
+    var date = new Date()
+    var h = date.getHours()
+    var m = date.getMinutes()
+    var s = date.getSeconds()
+    h = (h < 10) ? "0" + h : h
+    m = (m < 10) ? "0" + m : m
+    s = (s < 10) ? "0" + s : s
+    var time = h + ":" + m + ":" + s + " "
+    document.getElementById('clock').innerText = time;
+    document.getElementById('clock').textContent = time;
+    setTimeout(showTime, 1000);
+  }
+  showTime();
 })
 
 Template.container.helpers({
@@ -26,8 +57,20 @@ Template.decks.helpers({
 })
 
 Template.language.helpers({
-  isPort() {
-    return lang.get() == 'port' ? true : false
+  state() {
+    return State.findOne()
+  },
+  isPort(lang) {
+    return lang == 'port' ? true : false
+  }
+})
+
+Template.tools.helpers({
+  state() {
+    return State.findOne()
+  },
+  clock() {
+    // return getTime('clock')
   }
 })
 
@@ -68,7 +111,8 @@ Template.decks.events({
       })
       $('.column-2').prop('disabled', false)
       $("#language").css("pointer-events", "auto");
-      $("#language").css("opacity", "1");
+      // $("#language").css("opacity", "1");
+      $("#language").removeAttr("style");
       Meteor.call('stop', this.name, lang.get())
     }
   }
@@ -77,7 +121,29 @@ Template.decks.events({
 Template.language.events({
   'click button'(e) {
     Meteor.setTimeout(function () {
-      lang.set(e.target.id)
+      // lang.set(e.target.id)
+      Meteor.call('setState', e.target.id)
     }, 100);
   }
 })
+
+Template.tools.events({
+  'click .tools button'(e) {
+    Meteor.call('tools.toggleLock')
+  }
+})
+
+
+function getTime(elem) {
+  var date = new Date();
+  var h = date.getHours(); // 0 - 23
+  var m = date.getMinutes(); // 0 - 59
+  var s = date.getSeconds(); // 0 - 59
+  h = (h < 10) ? "0" + h : h;
+  m = (m < 10) ? "0" + m : m;
+  s = (s < 10) ? "0" + s : s;
+  var time = h + ":" + m + ":" + s
+  document.getElementById(elem).innerText = time
+  document.getElementById(elem).textContent = time
+  setTimeout(getTime, 1000);
+}

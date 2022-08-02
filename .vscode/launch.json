@@ -8,19 +8,19 @@
 
     {
       "command": "meteor npm start",
-      "name": "Meteor",
+      "name": "Browser",
       "request": "launch",
       "type": "node-terminal"
     },
     {
-      "command": "meteor npm run android",
-      "name": "Meteor Android",
+      "command": "meteor run android-device --mobile-server=http://172.20.10.2:3000 --port=172.20.10.2:3000",
+      "name": "Android",
       "request": "launch",
       "type": "node-terminal"
     },
     {
-      "command": "meteor npm run ios",
-      "name": "Meteor iOS",
+      "command": "meteor run ios-device --mobile-server=http://172.20.10.2:3000 --port=172.20.10.2:3000",
+      "name": "iOS",
       "request": "launch",
       "type": "node-terminal"
     }

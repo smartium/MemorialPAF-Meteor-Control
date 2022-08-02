@@ -1,5 +1,6 @@
 <head>
-  <title>control</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memorial PAF</title>
 </head>
 
 <body>
@@ -11,11 +12,12 @@
     <h1>{{screen}}</h1>
     {{> decks}}
     {{> language}}
+    {{> tools}}
   </div>
 </template>
 
 <template name="decks">
-  <div class="decks">
+  <div class="decks {{#if appState.locked}}no-click alpha{{/if}}">
     {{#each deckItems}}
     <div id="{{name}}" name="deckItem" class="deck column-3  animate__animated animate__zoomIn">
       <h3 class="title">{{title}}</h3>
@@ -29,8 +31,8 @@
 </template>
 
 <template name="language">
-  <div class="language" id="language">
-    {{#if isPort}}
+  <div class="language {{#if appState.locked}}no-click alpha{{/if}}" id="language">
+    {{#if isPort state.activeLang}}
     <button id="port" class="column-2 active animate__animated animate__flash">PORTUGUÊS</button>
     <button id="eng" class="column-2">INGLÊS</button>
     {{else}}
@@ -41,4 +43,16 @@
 </template>
 
 <template name="tools">
+  <div class="tools">
+  <div id="clock" class="{{#if appState.locked}}clock-lock{{else}}clock-unlock{{/if}}" onload="showTime()"></div>
+    <div class="lock">
+      {{#if state.locked}}
+      <span class="locked-msg">INTERFACE BLOQUEADA</span> <button id="unlock"
+        class="locked animate__animated animate__flash"><i class="mdi mdi-lock no-click"></i></button>
+      {{else}}
+      <button id="lock" class="unlocked animate__animated animate__fadeIn"><i
+          class="mdi mdi-lock no-click"></i></button>
+      {{/if}}
+    </div>
+  </div>
 </template>
