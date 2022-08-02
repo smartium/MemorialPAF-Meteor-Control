@@ -12,6 +12,7 @@
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "animate.css": "^4.1.1",
+    "firmata": "^2.3.0",
     "jquery": "^3.6.0",
     "meteor-node-stubs": "^1.2.1",
     "osc-emitter": "^1.0.4",

@@ -11,7 +11,7 @@ var devMode = { enabled: true, address: '127.0.0.1' }
 Meteor.startup(() => {
   if (Configs.find().count() === 0) {
     console.log('Config está vazio!')
-    import '../assets/both/collections/defaultconfig'
+    import '../imports/both/collections/defaultconfig'
     Configs.insert(oPedro)
     Configs.insert(linhaDoTempo)
     Configs.insert(multipliqueSe)
